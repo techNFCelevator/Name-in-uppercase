@@ -1,11 +1,11 @@
 ; NASM Uppercase String Converter
 ; This program takes a user input string and converts it to uppercase.
 %assign MAX_LENGTH 128
-%define STDIN 0
-%define STDOUT 1
-%define SYS_EXIT 0
-%define SYS_READ 3
-%define SYS_WRITE 4
+%assign STDIN 0
+%assign STDOUT 1
+%assign SYS_EXIT 1
+%assign SYS_READ 3
+%assign SYS_WRITE 4
 
 section .data
     prompt db 'Please enter your name: ', 0h
