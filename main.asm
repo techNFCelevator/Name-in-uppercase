@@ -1,6 +1,11 @@
 ; NASM Uppercase String Converter
-; This program takes a user name input and converts it to uppercase.
+; This program takes a user input string and converts it to uppercase.
 %assign MAX_LENGTH 128
+%define STDIN 0
+%define STDOUT 1
+%define SYS_EXIT 0
+%define SYS_READ 3
+%define SYS_WRITE 4
 
 section .data
     prompt db 'Please enter your name: ', 0h
@@ -18,14 +23,14 @@ _start:
     mov eax, prompt
     call strlen
     mov edx, eax        ; message length
-    mov eax, 4          ; sys_write
-    mov ebx, 1          ; file descriptor (stdout)
+    mov eax, SYS_WRITE  ; sys_write
+    mov ebx, STDOUT     ; file descriptor (stdout)
     mov ecx, prompt     ; message to write
     int 0x80
 
     ; Read user input
-    mov eax, 3          ; sys_read
-    mov ebx, 0          ; file descriptor (stdin)
+    mov eax, SYS_READ   ; sys_read
+    mov ebx, STDIN      ; file descriptor (stdin)
     mov ecx, input      ; buffer to store input
     mov edx, MAX_LENGTH ; maximum length
     int 0x80
@@ -51,20 +56,20 @@ print_result:
     mov eax, output_msg
     call strlen
     mov edx, eax        ; message length
-    mov eax, 4          ; sys_write
-    mov ebx, 1          ; file descriptor (stdout)
+    mov eax, SYS_WRITE  ; sys_write
+    mov ebx, STDOUT     ; file descriptor (stdout)
     mov ecx, output_msg ; message to write
     int 0x80
 
     ; Print the converted string
-    mov eax, 4          ; sys_write
-    mov ebx, 1          ; file descriptor (stdout)
+    mov eax, SYS_WRITE  ; sys_write
+    mov ebx, STDOUT     ; file descriptor (stdout)
     mov ecx, input      ; uppercase string
     mov edx, MAX_LENGTH ; max length to print
     int 0x80
 
     ; Exit program
-    mov eax, 1          ; sys_exit
+    mov eax, SYS_EXIT   ; sys_exit
     xor ebx, ebx        ; return code 0
     int 0x80
     
