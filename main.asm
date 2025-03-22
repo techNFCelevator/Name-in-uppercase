@@ -1,6 +1,8 @@
 ; NASM Uppercase String Converter
 ; This program takes a user input string and converts it to uppercase.
+%assign ASCII_DIFF 32
 %assign MAX_LENGTH 128
+%assign NULL 0h
 %assign STDIN 0
 %assign STDOUT 1
 %assign SYS_EXIT 1
@@ -8,9 +10,8 @@
 %assign SYS_WRITE 4
 
 section .data
-    prompt db 'Please enter your name: ', 0h
-    length db MAX_LENGTH
-    output_msg db 'Your name in uppercase: ', 0h
+    prompt db 'Please enter your name: ', NULL
+    output_msg db 'Your name in uppercase: ', NULL
 
 section .bss
     input resb MAX_LENGTH
@@ -39,13 +40,13 @@ _start:
     mov ecx, input      ; pointer to string
 convert_loop:
     mov al, [ecx]       ; load a byte from the string
-    cmp al, 0           ; check for null terminator
+    cmp al, NULL        ; check for null terminator
     je print_result     ; if zero, end of string
     cmp al, 'a'         ; check if lowercase
     jl skip_conversion  ; skip if less than 'a'
     cmp al, 'z'         ; check if greater than 'z'
     jg skip_conversion  ; skip if greater than 'z'
-    sub al, 32          ; convert to uppercase
+    sub al, ASCII_DIFF  ; convert to uppercase
     mov [ecx], al       ; store back the uppercase character
 skip_conversion:
     inc ecx             ; move to the next character
@@ -78,7 +79,7 @@ strlen:
     mov ebx, eax
  
 nextchar:
-    cmp byte [eax], 0
+    cmp byte [eax], NULL
     jz  finished
     inc eax
     jmp nextchar
