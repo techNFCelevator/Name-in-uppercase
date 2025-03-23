@@ -1,6 +1,8 @@
 ; NASM Uppercase String Converter
 ; This program takes a user input string and converts it to uppercase.
 %assign ASCII_DIFF 32
+%assign ASCII_END 'z'
+%assign ASCII_START 'a'
 %assign MAX_LENGTH 128
 %assign NULL 0h
 %assign STDIN 0
@@ -42,9 +44,9 @@ convert_loop:
     mov al, [ecx]       ; load a byte from the string
     cmp al, NULL        ; check for null terminator
     je print_result     ; if zero, end of string
-    cmp al, 'a'         ; check if lowercase
+    cmp al, ASCII_START ; check if lowercase
     jl skip_conversion  ; skip if less than 'a'
-    cmp al, 'z'         ; check if greater than 'z'
+    cmp al, ASCII_END   ; check if greater than 'z'
     jg skip_conversion  ; skip if greater than 'z'
     sub al, ASCII_DIFF  ; convert to uppercase
     mov [ecx], al       ; store back the uppercase character
