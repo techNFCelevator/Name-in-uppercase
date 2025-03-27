@@ -27,13 +27,13 @@ _start:
     call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, prompt     ; message to write
     int 0x80
 
     ; Read user input
     mov eax, SYS_READ   ; sys_read
-    mov ebx, STDIN      ; file descriptor (stdin)
+    mov ebx, STDIN      ; file descriptor (standard input)
     mov ecx, input      ; buffer to store input
     mov edx, MAX_LENGTH ; maximum length
     int 0x80
@@ -60,13 +60,13 @@ print_result:
     call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, output_msg ; message to write
     int 0x80
 
     ; Print the converted string
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, input      ; uppercase string
     mov edx, MAX_LENGTH ; max length to print
     int 0x80
