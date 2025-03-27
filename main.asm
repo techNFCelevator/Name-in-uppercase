@@ -56,7 +56,7 @@ skip_conversion:
 
 print_result:
     ; Print the output message
-     mov eax, output_msg ; move address of output message string into EAX
+    mov eax, output_msg ; move address of output message string into EAX
     call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
