@@ -12,28 +12,28 @@
 %assign SYS_WRITE 4
 
 section .data
-    prompt db 'Please enter your name: ', NULL
-    output_msg db 'Your name in uppercase: ', NULL
+    prompt db 'Please enter your name: ', NULL     ; message string asking user for their name
+    output_msg db 'Your name in uppercase: ', NULL ; message string to output result of name converted to uppercase
 
 section .bss
-    input resb MAX_LENGTH
+    input resb MAX_LENGTH    ; reserve a MAX_LENGTH (128) byte space in memory for user input
 
 section .text
     global _start
 
 _start:
     ; Print the prompt message
-    mov eax, prompt
-    call strlen
+    mov eax, prompt     ; move address of prompt message string into EAX
+    call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, prompt     ; message to write
     int 0x80
 
     ; Read user input
     mov eax, SYS_READ   ; sys_read
-    mov ebx, STDIN      ; file descriptor (stdin)
+    mov ebx, STDIN      ; file descriptor (standard input)
     mov ecx, input      ; buffer to store input
     mov edx, MAX_LENGTH ; maximum length
     int 0x80
@@ -56,17 +56,17 @@ skip_conversion:
 
 print_result:
     ; Print the output message
-    mov eax, output_msg
-    call strlen
+     mov eax, output_msg ; move address of output message string into EAX
+    call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, output_msg ; message to write
     int 0x80
 
     ; Print the converted string
     mov eax, SYS_WRITE  ; sys_write
-    mov ebx, STDOUT     ; file descriptor (stdout)
+    mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, input      ; uppercase string
     mov edx, MAX_LENGTH ; max length to print
     int 0x80
@@ -77,16 +77,16 @@ print_result:
     int 0x80
     
 strlen:
-    push ebx
-    mov ebx, eax
+    push ebx            ; push the value in EBX onto the stack
+    mov ebx, eax        ; move the address in EAX into EBX (point to same segment in memory)
  
 nextchar:
-    cmp byte [eax], NULL
-    jz  finished
-    inc eax
-    jmp nextchar
+    cmp byte [eax], NULL; compare the byte at this address against zero
+    jz  finished        ; jump to code labeled 'finished'
+    inc eax             ; increment the addresd in EAX by one byte
+    jmp nextchar        ; jump to code labeled 'nextchar'
  
 finished:
-    sub eax, ebx
-    pop ebx
-    ret
+    sub eax, ebx        ; subtract the address in EBX from the address in EAX
+    pop ebx             ; pop the value on the stack back into EBX
+    ret                 ; return to where the function was called
