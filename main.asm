@@ -29,14 +29,14 @@ _start:
     mov eax, SYS_WRITE  ; sys_write
     mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, prompt     ; message to write
-    int 0x80
+    int 0x80            ; make the system call to print the message
 
     ; Read user input
     mov eax, SYS_READ   ; sys_read
     mov ebx, STDIN      ; file descriptor (standard input)
     mov ecx, input      ; buffer to store input
     mov edx, MAX_LENGTH ; maximum length
-    int 0x80
+    int 0x80            ; make the system call to read input
 
     ; Convert to uppercase
     mov ecx, input      ; pointer to string
@@ -62,19 +62,19 @@ print_result:
     mov eax, SYS_WRITE  ; sys_write
     mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, output_msg ; message to write
-    int 0x80
+    int 0x80            ; make the system call to print the message
 
     ; Print the converted string
     mov eax, SYS_WRITE  ; sys_write
     mov ebx, STDOUT     ; file descriptor (standard output)
     mov ecx, input      ; uppercase string
     mov edx, MAX_LENGTH ; max length to print
-    int 0x80
+    int 0x80            ; make the system call to print the converted string
 
     ; Exit program
     mov eax, SYS_EXIT   ; sys_exit
     xor ebx, ebx        ; return code 0
-    int 0x80
+    int 0x80            ; make the system call to exit the program
     
 strlen:
     push ebx            ; push the value in EBX onto the stack
