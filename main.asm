@@ -56,7 +56,7 @@ skip_conversion:
 
 print_result:
     ; Print the output message
-     mov eax, output_msg ; move address of output message string into EAX
+    mov eax, output_msg ; move address of output message string into EAX
     call strlen         ; call function to calculate length of the string
     mov edx, eax        ; message length
     mov eax, SYS_WRITE  ; sys_write
@@ -75,6 +75,8 @@ print_result:
     mov eax, SYS_EXIT   ; sys_exit
     xor ebx, ebx        ; return code 0
     int 0x80
+    ret                 ; return to where the function was called
+
     
 strlen:
     push ebx            ; push the value in EBX onto the stack
